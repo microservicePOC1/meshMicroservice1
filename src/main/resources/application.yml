@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: sample-service
+  config:
+    import: "optional:configserver:https://config1-charles3.apps.qqd02ebq.usgovvirginia.aroapp.azure.us/"
+environment:
+   servername: ${SERVERNAME}
+   dbport: ${DBPORT}
+   username: ${USERNAME}
+   password: ${PASSWORD}
+   dbname: ${DBNAME}
