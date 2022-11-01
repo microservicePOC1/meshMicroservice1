@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.core.env.Environment;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -26,6 +27,14 @@ public class Config {
     @Primary
     @Bean("mainDataSource")
     public DataSource mainDataSource() {
+         
+         
+         
+        Map<String, String> env = System.getenv();
+
+        // Java 8
+        env.forEach((k, v) -> System.out.println(k + ":" + v));
+         
         String serverName = environment.getProperty("environment.servername");
         String port = environment.getProperty("environment.dbport");
         String databaseName = environment.getProperty("environment.dbname");
