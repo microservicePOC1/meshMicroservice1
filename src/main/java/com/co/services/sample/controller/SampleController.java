@@ -8,6 +8,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.core.env.Environment;
+import com.service.models.*;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.slf4j.Logger;
@@ -82,5 +89,55 @@ public class SampleController {
 
 		return output;
 	}
+	
+	  		//check for VALUE equal to requesting user generating new ms
+	    @PostMapping("/msNameCheck")
+	    public List<LookupResponse> checkMsName(@RequestParam("msNameRequested") String msNameRequested) {
+	        Map<String, String> env = System.getenv();
+	        System.out.println("DATA PASSED IS: "+ msNameRequested.toString());
+	        // Java 8
+	        env.forEach((k, v) -> System.out.println(k + ":" + v));
+//	        String ms1test = environment.getProperty("environment.CONF_MS0");
+	        Map<String, String> linkedHashMap = new LinkedHashMap<>();
+
+	        for (Map.Entry<String, String> confEnvVars : env.entrySet()) {
+	            if(confEnvVars.getValue().equals("PWUS")){
+	                linkedHashMap.put(confEnvVars.getKey(), confEnvVars.getValue());
+	            }
+	        }
+	        //add hashmap to serializable pojo and return it
+	        System.out.println("Filtered Map: " + linkedHashMap);
+	        if(linkedHashMap.entrySet().isEmpty()) {
+	            
+		        return Arrays.asList(new LookupResponse("Name" +"'" + msNameRequested + "'" +   " is available",true ));
+	        }
+	        else {
+	            
+	            return Arrays.asList(new LookupResponse("Name" + "'" + msNameRequested + "'" +   " is already taken",false ));
+	        }
+	    }
+	    
+	    //gets all PW prefixed envs, just adapt for 'CONF_' and test in dep
+	    @GetMapping("/msNameMap")
+	    public List<EnvMap> getMsNameMap() {
+	        Map<String, String> env = System.getenv();
+	        // Java 8
+	        env.forEach((k, v) -> System.out.println(k + ":" + v));
+//	        String ms1test = environment.getProperty("environment.CONF_MS0");
+	        Map<String, String> linkedHashMap = new LinkedHashMap<>();
+
+	        for (Map.Entry<String, String> confEnvVars : env.entrySet()) {
+	            if(confEnvVars.getKey().contains("PW")){
+	                linkedHashMap.put(confEnvVars.getKey(), confEnvVars.getValue());
+	            }
+	        }
+	        //add hashmap to serializable pojo and return it
+	        System.out.println("Filtered Map: " + linkedHashMap);
+
+	        
+	        return Arrays.asList(new EnvMap(linkedHashMap));
+	    }
+	
+	
     
 }
