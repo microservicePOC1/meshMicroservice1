@@ -1,4 +1,4 @@
-package com.service.models;
+package co.services.sample.models;
 
 
 
