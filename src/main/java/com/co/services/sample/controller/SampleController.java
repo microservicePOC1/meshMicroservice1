@@ -98,24 +98,30 @@ public class SampleController {
 	        System.out.println("DATA PASSED IS: "+ msNameRequested.toString());
 	        // Java 8
 	        env.forEach((k, v) -> System.out.println(k + ":" + v));
-//	        String ms1test = environment.getProperty("environment.CONF_MS0");
-	        Map<String, String> linkedHashMap = new LinkedHashMap<>();
 
-	        for (Map.Entry<String, String> confEnvVars : env.entrySet()) {
-	            if(confEnvVars.getValue().equals("PWUS")){
+	        Map<String, String> linkedHashMap = new LinkedHashMap<>();
+		boolean found = false;
+		    
+		for (Map.Entry<String, String> confEnvVars : env.entrySet()) {
+	            if(confEnvVars.getKey().contains("CONFIG_")){
 	                linkedHashMap.put(confEnvVars.getKey(), confEnvVars.getValue());
 	            }
 	        }
-	        //add hashmap to serializable pojo and return it
-	        System.out.println("Filtered Map: " + linkedHashMap);
-	        if(linkedHashMap.entrySet().isEmpty()) {
-	            
-		        return Arrays.asList(new LookupResponse("Name" +"'" + msNameRequested + "'" +   " is available",true ));
+	        for (Map.Entry<String, String> confEnvVars : env.entrySet()) {
+	            if(confEnvVars.getValue().equals(msNameRequested)){
+			System.out.println("FOUND EXISTING MS NAME: " + msNameRequested);
+	                found = true;
+			break;
+	            }
 	        }
-	        else {
-	            
-	            return Arrays.asList(new LookupResponse("Name" + "'" + msNameRequested + "'" +   " is already taken",false ));
-	        }
+		if(found === true){
+		            return Arrays.asList(new LookupResponse("Name" + "'" + msNameRequested + "'" +   " is already taken",false ));
+		}
+		else{
+			    return Arrays.asList(new LookupResponse("Name" +"'" + msNameRequested + "'" +   " is available",true ));
+		 }
+		    
+
 	    }
 	    
 	    //gets all PW prefixed envs, just adapt for 'CONF_' and test in dep
@@ -128,7 +134,7 @@ public class SampleController {
 	        Map<String, String> linkedHashMap = new LinkedHashMap<>();
 
 	        for (Map.Entry<String, String> confEnvVars : env.entrySet()) {
-	            if(confEnvVars.getKey().contains("CONF_")){
+	            if(confEnvVars.getKey().contains("CONFIG_")){
 	                linkedHashMap.put(confEnvVars.getKey(), confEnvVars.getValue());
 	            }
 	        }
