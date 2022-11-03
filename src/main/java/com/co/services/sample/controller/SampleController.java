@@ -128,7 +128,7 @@ public class SampleController {
 	        Map<String, String> linkedHashMap = new LinkedHashMap<>();
 
 	        for (Map.Entry<String, String> confEnvVars : env.entrySet()) {
-	            if(confEnvVars.getKey().contains("PW")){
+	            if(confEnvVars.getKey().contains("CONF_")){
 	                linkedHashMap.put(confEnvVars.getKey(), confEnvVars.getValue());
 	            }
 	        }
