@@ -114,7 +114,7 @@ public class SampleController {
 			break;
 	            }
 	        }
-		if(found === true){
+		if(found == true){
 		            return Arrays.asList(new LookupResponse("Name" + "'" + msNameRequested + "'" +   " is already taken",false ));
 		}
 		else{
