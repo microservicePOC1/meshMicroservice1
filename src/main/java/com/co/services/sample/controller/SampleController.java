@@ -36,7 +36,7 @@ public class SampleController {
         return new BigDecimal(val).round(m);
     }
     
-     @GetMapping("/")
+     @GetMapping("/get")
      public String listSample() {
 		String sql = "SELECT * FROM REV_LINE_ITEM";
 		List<Map<String, Object>> sqlResults = jdbcTemplate.queryForList(sql);
